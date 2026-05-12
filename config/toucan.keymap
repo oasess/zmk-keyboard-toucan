@@ -13,8 +13,8 @@
 #define LAYER_Subl 3
 #define LAYER_Apps 4
 #define LAYER_Systm 5
-#define LAYER_Letters 6
-#define LAYER_Raycast 7
+#define LAYER_Raycast 6
+#define LAYER_Letters 7
 #define LAYER_Bluetooth 8
 #define LAYER_Numpad 9
 
@@ -121,19 +121,19 @@
         layer_Base {
             display-name = "BASE";
             bindings = <
-//    ┌────────────────────────────────┬──────────────────┬────────────────────────┬─────────────────────────┬────────────────┬──────────────────────┐               ┌─────────────────────┬───────────────┬───────────────┬────────────────────────────────────┬───────────────┬──────┐
-//    │ &htm lsft(lctl(lalt(tab))) tab │        Q         │ &my_lt laltYER_Systm W │ &my_lt laltYER_Numpad E │       R        │          T           │               │          Y          │       U       │       I       │ &my_mt lgui(lctl(lalt(lsft(Z)))) O │       P       │  \   │
-//    ├────────────────────────────────┼──────────────────┼────────────────────────┼─────────────────────────┼────────────────┼──────────────────────┤               ├─────────────────────┼───────────────┼───────────────┼────────────────────────────────────┼───────────────┼──────┤
-//    │       lt laltYER_Nav esc       │  &hrm_l lgui A   │     &hrm_l lalt S      │      &hrm_l lsft D      │ &hrm_l lctl F  │   &htm lgui(spc) G   │               │          H          │ &hrm_r rctl J │ &hrm_r rsft K │           &hrm_r ralt L            │ &hrm_r rgui ; │  '   │
-//    ├────────────────────────────────┼──────────────────┼────────────────────────┼─────────────────────────┼────────────────┼──────────────────────┤               ├─────────────────────┼───────────────┼───────────────┼────────────────────────────────────┼───────────────┼──────┤
-//    │              lsft              │ &htm lgui(tab) Z │     &htm lgui(`) X     │     &htm lgui(C) C      │ &htm lgui(V) V │          B           │               │          N          │       M       │       ,       │                 .                  │       /       │ rsft │
-//    └────────────────────────────────┴──────────────────┴────────────────────────┴─────────────────────────┼────────────────┼──────────────────────┼─────┐   ┌─────┼─────────────────────┼───────────────┼───────────────┴────────────────────────────────────┴───────────────┴──────┘
-//                                                                                                           │                │ lt laltYER_Symb bspc │ spc │   │ spc │ lt laltYER_Subl ent │               │
-//                                                                                                           └────────────────┴──────────────────────┴─────┘   └─────┴─────────────────────┴───────────────┘
-  &htm LS(LC(LA(TAB))) TAB   &kp Q            &my_lt LAYER_Systm W   &my_lt LAYER_Numpad E   &kp R            &kp T                                             &kp Y                &kp U            &kp I            &my_mt LG(LC(LA(LS(Z)))) O   &kp P              &kp BSLH
-  &lt LAYER_Nav ESC          &hrm_l LGUI A    &hrm_l LALT S          &hrm_l LSHFT D          &hrm_l LCTRL F   &htm LG(SPACE) G                                  &kp H                &hrm_r RCTRL J   &hrm_r RSHFT K   &hrm_r RALT L                &hrm_r RGUI SEMI   &kp SQT
-  &kp LSHFT                  &htm LG(TAB) Z   &htm LG(GRAVE) X       &htm LG(C) C            &htm LG(V) V     &kp B                                             &kp N                &kp M            &kp COMMA        &kp DOT                      &kp FSLH           &kp RSHFT
-                                                                                             &none            &lt LAYER_Symb BSPC   &kp SPACE       &kp SPACE   &lt LAYER_Subl RET   &none
+//    ┌────────────────────────────────┬──────────────────┬────────────────────────┬─────────────────────────┬─────────────────┬──────────────────────┐               ┌─────────────────────┬───────────────┬───────────────┬────────────────────────────────────┬───────────────┬──────┐
+//    │ &htm lsft(lctl(lalt(tab))) tab │        Q         │ &my_lt laltYER_Systm W │ &my_lt laltYER_Numpad E │ &htm HYPER(D) R │          T           │               │          Y          │       U       │       I       │ &my_mt lgui(lctl(lalt(lsft(Z)))) O │       P       │  \   │
+//    ├────────────────────────────────┼──────────────────┼────────────────────────┼─────────────────────────┼─────────────────┼──────────────────────┤               ├─────────────────────┼───────────────┼───────────────┼────────────────────────────────────┼───────────────┼──────┤
+//    │       lt laltYER_Nav esc       │  &hrm_l lgui A   │     &hrm_l lalt S      │      &hrm_l lsft D      │  &hrm_l lctl F  │   &htm lgui(spc) G   │               │          H          │ &hrm_r rctl J │ &hrm_r rsft K │           &hrm_r ralt L            │ &hrm_r rgui ; │  '   │
+//    ├────────────────────────────────┼──────────────────┼────────────────────────┼─────────────────────────┼─────────────────┼──────────────────────┤               ├─────────────────────┼───────────────┼───────────────┼────────────────────────────────────┼───────────────┼──────┤
+//    │              lsft              │ &htm lgui(tab) Z │     &htm lgui(`) X     │     &htm lgui(C) C      │ &htm lgui(V) V  │          B           │               │          N          │       M       │       ,       │                 .                  │       /       │ rsft │
+//    └────────────────────────────────┴──────────────────┴────────────────────────┴─────────────────────────┼─────────────────┼──────────────────────┼─────┐   ┌─────┼─────────────────────┼───────────────┼───────────────┴────────────────────────────────────┴───────────────┴──────┘
+//                                                                                                           │                 │ lt laltYER_Symb bspc │ spc │   │ spc │ lt laltYER_Subl ent │               │
+//                                                                                                           └─────────────────┴──────────────────────┴─────┘   └─────┴─────────────────────┴───────────────┘
+  &htm LS(LC(LA(TAB))) TAB   &kp Q            &my_lt LAYER_Systm W   &my_lt LAYER_Numpad E   &htm HYPER(D) R   &kp T                                             &kp Y                &kp U            &kp I            &my_mt LG(LC(LA(LS(Z)))) O   &kp P              &kp BSLH
+  &lt LAYER_Nav ESC          &hrm_l LGUI A    &hrm_l LALT S          &hrm_l LSHFT D          &hrm_l LCTRL F    &htm LG(SPACE) G                                  &kp H                &hrm_r RCTRL J   &hrm_r RSHFT K   &hrm_r RALT L                &hrm_r RGUI SEMI   &kp SQT
+  &kp LSHFT                  &htm LG(TAB) Z   &htm LG(GRAVE) X       &htm LG(C) C            &htm LG(V) V      &kp B                                             &kp N                &kp M            &kp COMMA        &kp DOT                      &kp FSLH           &kp RSHFT
+                                                                                             &none             &lt LAYER_Symb BSPC   &kp SPACE       &kp SPACE   &lt LAYER_Subl RET   &none
             >;
         };
 
@@ -195,11 +195,11 @@
             >;
         };
 
-          layer_Apps {
+        layer_Apps {
             display-name = "APPS";
             bindings = <
 //    ┌───────────────────────┬─────┬──────────┬─────┬──────────┬─────┐               ┌──────────┬──────────┬──────────┬──────────┬──────────┬─────┐
-//    │ lsft(lctl(lalt(tab))) │     │          │     │ HYPER(W) │     │               │          │          │          │ HYPER(C) │          │     │
+//    │ lsft(lctl(lalt(tab))) │     │          │     │ HYPER(W) │     │               │          │          │ HYPER(I) │ HYPER(C) │          │     │
 //    ├───────────────────────┼─────┼──────────┼─────┼──────────┼─────┤               ├──────────┼──────────┼──────────┼──────────┼──────────┼─────┤
 //    │                       │     │ HYPER(T) │     │ HYPER(F) │     │               │ HYPER(R) │ HYPER(H) │ HYPER(S) │ HYPER(K) │ HYPER(;) │     │
 //    ├───────────────────────┼─────┼──────────┼─────┼──────────┼─────┤               ├──────────┼──────────┼──────────┼──────────┼──────────┼─────┤
@@ -207,14 +207,14 @@
 //    └───────────────────────┴─────┴──────────┴─────┼──────────┼─────┼─────┐   ┌─────┼──────────┼──────────┼──────────┴──────────┴──────────┴─────┘
 //                                                   │          │     │     │   │     │          │          │
 //                                                   └──────────┴─────┴─────┘   └─────┴──────────┴──────────┘
-  &kp LS(LC(LA(TAB)))   &none   &none          &none   &kp HYPER(W)   &none                          &none          &none          &none          &kp HYPER(C)   &none             &none
+  &kp LS(LC(LA(TAB)))   &none   &none          &none   &kp HYPER(W)   &none                          &none          &none          &kp HYPER(I)   &kp HYPER(C)   &none             &none
   &none                 &none   &kp HYPER(T)   &none   &kp HYPER(F)   &none                          &kp HYPER(R)   &kp HYPER(H)   &kp HYPER(S)   &kp HYPER(K)   &kp HYPER(SEMI)   &none
   &trans                &none   &none          &none   &none          &none                          &none          &kp HYPER(M)   &none          &none          &none             &trans
                                                        &trans         &trans   &trans       &trans   &trans         &trans
             >;
         };
 
-              layer_Systm {
+        layer_Systm {
             display-name = "SYST";
             bindings = <
 //    ┌─────┬────────────┬─────┬─────────────────────┬──────┬─────┐               ┌─────┬─────┬────┬────┬─────┬─────┐
@@ -233,27 +233,27 @@
             >;
         };
 
-              layer_Raycast {
+        layer_Raycast {
             display-name = "RAYC";
             bindings = <
-//    ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌─────┬─────┬─────┬─────┬─────┬─────┐
-//    │     │     │     │     │     │     │               │     │     │     │     │     │     │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │     │     │     │     │     │               │     │     │     │     │     │     │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │     │     │     │     │     │               │     │     │     │     │     │     │
-//    └─────┴─────┴─────┴─────┼─────┼─────┼─────┐   ┌─────┼─────┼─────┼─────┴─────┴─────┴─────┘
-//                            │     │     │     │   │     │     │     │
-//                            └─────┴─────┴─────┘   └─────┴─────┴─────┘
-  &none   &none   &none   &none   &none   &none                       &none   &none   &none   &none   &none   &none
-  &none   &none   &none   &none   &none   &none                       &none   &none   &none   &none   &none   &none
-  &none   &none   &none   &none   &none   &none                       &none   &none   &none   &none   &none   &none
-                                  &none   &none   &none       &none   &none   &none
+//    ┌─────┬─────┬─────┬──────────┬─────┬─────┐               ┌──────────┬──────────┬──────────┬──────────┬─────┬─────┐
+//    │     │     │     │ HYPER(E) │     │     │               │ HYPER(Y) │          │          │          │     │     │
+//    ├─────┼─────┼─────┼──────────┼─────┼─────┤               ├──────────┼──────────┼──────────┼──────────┼─────┼─────┤
+//    │     │     │     │          │     │     │               │          │ HYPER(J) │ HYPER(K) │ HYPER(L) │     │     │
+//    ├─────┼─────┼─────┼──────────┼─────┼─────┤               ├──────────┼──────────┼──────────┼──────────┼─────┼─────┤
+//    │     │     │     │          │     │     │               │          │          │          │          │     │     │
+//    └─────┴─────┴─────┴──────────┼─────┼─────┼─────┐   ┌─────┼──────────┼──────────┼──────────┴──────────┴─────┴─────┘
+//                                 │     │     │     │   │     │          │          │
+//                                 └─────┴─────┴─────┘   └─────┴──────────┴──────────┘
+  &none   &none   &none   &kp HYPER(E)   &none   &none                       &kp HYPER(Y)   &none          &none          &none          &none   &none
+  &none   &none   &none   &none          &none   &none                       &none          &kp HYPER(J)   &kp HYPER(K)   &kp HYPER(L)   &none   &none
+  &none   &none   &none   &none          &none   &none                       &none          &none          &none          &none          &none   &none
+                                         &none   &none   &none       &none   &none          &none
             >;
         };
 
 
-              layer_Letters {
+        layer_Letters {
             display-name = "LTRS";
             bindings = <
 //    ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌────────────┬─────┬─────┬─────┬─────┬─────┐
@@ -272,7 +272,7 @@
             >;
         };
 
-          layer_Bluetooth {
+        layer_Bluetooth {
             display-name = "BLUE";
             bindings = <
 //    ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
