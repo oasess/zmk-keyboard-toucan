@@ -201,14 +201,14 @@
 //    ┌───────────────────────┬─────┬──────────┬─────┬──────────┬─────┐               ┌──────────┬──────────┬──────────┬──────────┬──────────┬─────┐
 //    │ lsft(lctl(lalt(tab))) │     │          │     │ HYPER(W) │     │               │          │          │ HYPER(I) │ HYPER(C) │          │     │
 //    ├───────────────────────┼─────┼──────────┼─────┼──────────┼─────┤               ├──────────┼──────────┼──────────┼──────────┼──────────┼─────┤
-//    │                       │     │ HYPER(T) │     │ HYPER(F) │     │               │ HYPER(R) │ HYPER(H) │ HYPER(S) │ HYPER(K) │ HYPER(;) │     │
+//    │                       │     │ HYPER(T) │     │ HYPER(F) │     │               │ HYPER(R) │ HYPER(H) │ HYPER(S) │ HYPER(Q) │ HYPER(;) │     │
 //    ├───────────────────────┼─────┼──────────┼─────┼──────────┼─────┤               ├──────────┼──────────┼──────────┼──────────┼──────────┼─────┤
 //    │                       │     │          │     │          │     │               │          │ HYPER(M) │          │          │          │     │
 //    └───────────────────────┴─────┴──────────┴─────┼──────────┼─────┼─────┐   ┌─────┼──────────┼──────────┼──────────┴──────────┴──────────┴─────┘
 //                                                   │          │     │     │   │     │          │          │
 //                                                   └──────────┴─────┴─────┘   └─────┴──────────┴──────────┘
   &kp LS(LC(LA(TAB)))   &none   &none          &none   &kp HYPER(W)   &none                          &none          &none          &kp HYPER(I)   &kp HYPER(C)   &none             &none
-  &none                 &none   &kp HYPER(T)   &none   &kp HYPER(F)   &none                          &kp HYPER(R)   &kp HYPER(H)   &kp HYPER(S)   &kp HYPER(K)   &kp HYPER(SEMI)   &none
+  &none                 &none   &kp HYPER(T)   &none   &kp HYPER(F)   &none                          &kp HYPER(R)   &kp HYPER(H)   &kp HYPER(S)   &kp HYPER(Q)   &kp HYPER(SEMI)   &none
   &trans                &none   &none          &none   &none          &none                          &none          &kp HYPER(M)   &none          &none          &none             &trans
                                                        &trans         &trans   &trans       &trans   &trans         &trans
             >;
