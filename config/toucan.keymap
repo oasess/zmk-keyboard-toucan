@@ -140,19 +140,19 @@
         layer_Nav {
             display-name = "NAVI";
             bindings = <
-//    ┌─────┬─────┬─────┬─────┬─────┬──────────┐               ┌──────┬──────┬──────┬──────┬─────┬─────┐
-//    │     │     │     │     │     │          │               │ home │ pgdn │ pgup │ end  │     │     │
-//    ├─────┼─────┼─────┼─────┼─────┼──────────┤               ├──────┼──────┼──────┼──────┼─────┼─────┤
-//    │     │     │     │     │     │ HYPER(G) │               │ left │ down │  up  │ rght │     │     │
-//    ├─────┼─────┼─────┼─────┼─────┼──────────┤               ├──────┼──────┼──────┼──────┼─────┼─────┤
-//    │     │     │     │     │     │ HYPER(B) │               │      │      │      │      │     │     │
-//    └─────┴─────┴─────┴─────┼─────┼──────────┼─────┐   ┌─────┼──────┼──────┼──────┴──────┴─────┴─────┘
-//                            │     │          │     │   │     │      │      │
-//                            └─────┴──────────┴─────┘   └─────┴──────┴──────┘
-  &none    &none    &none    &none    &none    &none                                &kp HOME   &kp PG_DN   &kp PG_UP   &kp END     &none   &none
-  &none    &trans   &trans   &trans   &trans   &kp HYPER(G)                         &kp LEFT   &kp DOWN    &kp UP      &kp RIGHT   &none   &none
-  &trans   &none    &none    &none    &none    &kp HYPER(B)                         &none      &none       &none       &none       &none   &trans
-                                      &trans   &trans         &trans       &trans   &trans     &trans
+//    ┌─────┬─────┬─────┬─────┬─────┬──────────┐                ┌──────┬──────┬──────┬──────┬─────┬─────┐
+//    │     │     │     │     │     │          │                │ home │ pgdn │ pgup │ end  │     │     │
+//    ├─────┼─────┼─────┼─────┼─────┼──────────┤                ├──────┼──────┼──────┼──────┼─────┼─────┤
+//    │     │     │     │     │     │ HYPER(G) │                │ left │ down │  up  │ rght │     │     │
+//    ├─────┼─────┼─────┼─────┼─────┼──────────┤                ├──────┼──────┼──────┼──────┼─────┼─────┤
+//    │     │     │     │     │     │ HYPER(B) │                │      │      │      │      │     │     │
+//    └─────┴─────┴─────┴─────┼─────┼──────────┼──────┐   ┌─────┼──────┼──────┼──────┴──────┴─────┴─────┘
+//                            │     │   rclk   │ mclk │   │     │      │      │
+//                            └─────┴──────────┴──────┘   └─────┴──────┴──────┘
+  &none    &none    &none    &none    &none    &none                                   &kp HOME   &kp PG_DN   &kp PG_UP   &kp END     &none   &none
+  &none    &trans   &trans   &trans   &trans   &kp HYPER(G)                            &kp LEFT   &kp DOWN    &kp UP      &kp RIGHT   &none   &none
+  &trans   &none    &none    &none    &none    &kp HYPER(B)                            &none      &none       &none       &none       &none   &trans
+                                      &trans   &mkp RCLK      &mkp MCLK       &trans   &trans     &trans
             >;
         };
 
