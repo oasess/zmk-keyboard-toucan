@@ -23,11 +23,23 @@
 #define HYPER(k) LS(LC(LA(LG(k))))
 
 // Home row mod positional (urob 패턴). hold는 반대손·엄지에서만 발동, 같은손
-// 키가 뒤따르면 강제 탭(오발 차단). 위치 인덱스 = Base 레이어 binding 나열
-// 순서 0~41. kanata mac-common.kbd $hrm-lkeys/$hrm-rkeys와 동일 의미(인코딩 반대).
-#define KEYS_L 0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29
-#define KEYS_R 6 7 8 9 10 11 18 19 20 21 22 23 30 31 32 33 34 35
-#define THUMBS 36 37 38 39 40 41
+// 키가 뒤따르면 강제 탭(오발 차단). kanata $hrm-lkeys/$hrm-rkeys와 동일 의미.
+//
+// ZMK는 이 속성에 키 이름을 못 받음 → 위치 인덱스 필수. 인덱스 = Base 레이어
+// binding 나열 순서(0~41). 행 단위로 분해해 물리 위치와 대조 가능하게 함:
+//   top    L: 0  1  2  3  4  5     R:  6  7  8  9 10 11
+//   home   L:12 13 14 15 16 17     R: 18 19 20 21 22 23
+//   bottom L:24 25 26 27 28 29     R: 30 31 32 33 34 35
+//   thumb  L:36 37 38              R: 39 40 41
+#define KEYS_LT  0  1  2  3  4  5
+#define KEYS_LH 12 13 14 15 16 17
+#define KEYS_LB 24 25 26 27 28 29
+#define KEYS_RT  6  7  8  9 10 11
+#define KEYS_RH 18 19 20 21 22 23
+#define KEYS_RB 30 31 32 33 34 35
+#define KEYS_L  KEYS_LT KEYS_LH KEYS_LB
+#define KEYS_R  KEYS_RT KEYS_RH KEYS_RB
+#define THUMBS  36 37 38 39 40 41
 
 / {
     behaviors {
