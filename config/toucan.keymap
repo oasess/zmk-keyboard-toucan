@@ -7,16 +7,21 @@
 // https://zmk.dev/docs/keymaps/behaviors/mouse-emulation
 #include <dt-bindings/zmk/pointing.h>
 
+// 레이어 인덱스 = keymap{} 안 layer 노드의 물리적 순서. dtsi scroller가 raw 인덱스로
+// Nav/Scroll을 참조하므로(trackpad 모드 결합점), Mouse/Scroll을 Base 직후 저인덱스에 고정해
+// 뒤쪽 레이어 추가/삭제로 인한 index 밀림에서 격리한다. 순서 변경 시 dtsi scroller 동기 필수.
 #define LAYER_Base 0
-#define LAYER_Nav 1
-#define LAYER_Symb 2
-#define LAYER_Subl 3
-#define LAYER_Apps 4
-#define LAYER_Systm 5
-#define LAYER_Raycast 6
-#define LAYER_Letters 7
-#define LAYER_Bluetooth 8
-#define LAYER_Numpad 9
+#define LAYER_Mouse 1
+#define LAYER_Scroll 2
+#define LAYER_Nav 3
+#define LAYER_Symb 4
+#define LAYER_Subl 5
+#define LAYER_Apps 6
+#define LAYER_Systm 7
+#define LAYER_Raycast 8
+#define LAYER_Letters 9
+#define LAYER_Bluetooth 10
+#define LAYER_Numpad 11
 
 // Hyper = Shift + Ctrl + Alt + Cmd 합성 modifier.
 // Hammerspoon hyper_actions.lua가 OS-level listener로 받음 (kanata 측도 동일 조합 emit).
@@ -101,6 +106,16 @@
             bindings = <&mo>, <&kp>;
         };
 
+        // hold = &kt(key-toggle, 락 토글), tap = 평문 &kp. 사용: &my_kt LSHFT Y → tap=Y / hold=shift-lock 토글.
+        // &htm(<&once>,<&kp>)·&my_mt(<&kp>,<&kp>)로는 hold에 &kt를 못 넣어 별도 variant. g/b/r htm과 동일 감각(tap-preferred/300).
+        my_kt: my_kt {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <300>;
+            bindings = <&kt>, <&kp>;
+        };
+
         my_mtw: my_mtw {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -149,18 +164,59 @@
             display-name = "BASE";
             bindings = <
 //    ┌────────────────────────────────┬──────────────────┬────────────────────────┬─────────────────────────┬───────────────────┬──────────────────────┐               ┌─────────────────────┬───────────────┬───────────────┬────────────────────────────────────┬───────────────┬──────┐
-//    │ &htm lsft(lctl(lalt(tab))) tab │        Q         │ &my_lt laltYER_Systm W │ &my_lt laltYER_Numpad E │ &htm HYPER(f11) R │          T           │               │          Y          │       U       │       I       │ &my_mt lgui(lctl(lalt(lsft(Z)))) O │       P       │  \   │
+//    │ &htm lsft(lctl(lalt(tab))) tab │        Q         │ &my_lt laltYER_Systm W │ &my_lt laltYER_Numpad E │ &htm HYPER(f11) R │          T           │               │    &my_kt lsft Y    │       U       │       I       │ &my_mt lgui(lctl(lalt(lsft(Z)))) O │       P       │  \   │
 //    ├────────────────────────────────┼──────────────────┼────────────────────────┼─────────────────────────┼───────────────────┼──────────────────────┤               ├─────────────────────┼───────────────┼───────────────┼────────────────────────────────────┼───────────────┼──────┤
 //    │       lt laltYER_Nav esc       │  &hrm_l lgui A   │     &hrm_l lalt S      │      &hrm_l lsft D      │   &hrm_l lctl F   │   &htm lgui(spc) G   │               │          H          │ &hrm_r rctl J │ &hrm_r rsft K │           &hrm_r ralt L            │ &hrm_r rgui ; │  '   │
 //    ├────────────────────────────────┼──────────────────┼────────────────────────┼─────────────────────────┼───────────────────┼──────────────────────┤               ├─────────────────────┼───────────────┼───────────────┼────────────────────────────────────┼───────────────┼──────┤
 //    │              lsft              │ &htm lgui(tab) Z │     &htm lgui(`) X     │     &htm lgui(C) C      │  &htm lgui(V) V   │  &htm HYPER(f10) B   │               │          N          │       M       │       ,       │                 .                  │       /       │ rsft │
 //    └────────────────────────────────┴──────────────────┴────────────────────────┴─────────────────────────┼───────────────────┼──────────────────────┼─────┐   ┌─────┼─────────────────────┼───────────────┼───────────────┴────────────────────────────────────┴───────────────┴──────┘
-//                                                                                                           │                   │ lt laltYER_Symb bspc │ spc │   │ spc │ lt laltYER_Subl ent │   lsft(spc)   │
+//                                                                                                           │ mo laltYER_Mouse  │ lt laltYER_Symb bspc │ spc │   │ spc │ lt laltYER_Subl ent │   lsft(spc)   │
 //                                                                                                           └───────────────────┴──────────────────────┴─────┘   └─────┴─────────────────────┴───────────────┘
-  &htm LS(LC(LA(TAB))) TAB   &kp Q            &my_lt LAYER_Systm W   &my_lt LAYER_Numpad E   &htm HYPER(F11) R   &kp T                                             &kp Y                &kp U            &kp I            &my_mt LG(LC(LA(LS(Z)))) O   &kp P              &kp BSLH
+  &htm LS(LC(LA(TAB))) TAB   &kp Q            &my_lt LAYER_Systm W   &my_lt LAYER_Numpad E   &htm HYPER(F11) R   &kp T                                             &my_kt LSHFT Y       &kp U            &kp I            &my_mt LG(LC(LA(LS(Z)))) O   &kp P              &kp BSLH
   &lt LAYER_Nav ESC          &hrm_l LGUI A    &hrm_l LALT S          &hrm_l LSHFT D          &hrm_l LCTRL F      &htm LG(SPACE) G                                  &kp H                &hrm_r RCTRL J   &hrm_r RSHFT K   &hrm_r RALT L                &hrm_r RGUI SEMI   &kp SQT
   &kp LSHFT                  &htm LG(TAB) Z   &htm LG(GRAVE) X       &htm LG(C) C            &htm LG(V) V        &htm HYPER(F10) B                                 &kp N                &kp M            &kp COMMA        &kp DOT                      &kp FSLH           &kp RSHFT
-                                                                                             &kt LSHFT           &lt LAYER_Symb BSPC   &kp SPACE       &kp SPACE   &lt LAYER_Subl RET   &kp LS(SPACE)
+                                                                                             &mo LAYER_Mouse     &lt LAYER_Symb BSPC   &kp SPACE       &kp SPACE   &lt LAYER_Subl RET   &kp LS(SPACE)
+            >;
+        };
+
+        layer_Mouse {
+            display-name = "MOUS";
+            // 좌엄지 최외곽 hold로 진입(momentary). 좌 home row = 마우스 클릭/스크롤, 우측 트랙패드는 포인터 모드 유지.
+            // A=scroll(hold→LAYER_Scroll), S=중클릭, D=우클릭, F=좌클릭. F hold + 트랙패드 드래그 = 드래그-셀렉트.
+            bindings = <
+//    ┌─────┬───────────────────┬──────┬──────┬──────┬─────┐               ┌─────┬─────┬─────┬─────┬─────┬─────┐
+//    │     │                   │      │      │      │     │               │     │     │     │     │     │     │
+//    ├─────┼───────────────────┼──────┼──────┼──────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
+//    │     │ mo laltYER_Scroll │ mclk │ rclk │ lclk │     │               │     │     │     │     │     │     │
+//    ├─────┼───────────────────┼──────┼──────┼──────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
+//    │     │                   │      │      │      │     │               │     │     │     │     │     │     │
+//    └─────┴───────────────────┴──────┴──────┼──────┼─────┼─────┐   ┌─────┼─────┼─────┼─────┴─────┴─────┴─────┘
+//                                            │      │     │     │   │     │     │     │
+//                                            └──────┴─────┴─────┘   └─────┴─────┴─────┘
+  &trans   &trans             &trans      &trans      &trans      &trans                         &trans   &trans   &trans   &trans   &trans   &trans
+  &trans   &mo LAYER_Scroll   &mkp MCLK   &mkp RCLK   &mkp LCLK   &trans                         &trans   &trans   &trans   &trans   &trans   &trans
+  &trans   &trans             &trans      &trans      &trans      &trans                         &trans   &trans   &trans   &trans   &trans   &trans
+                                                      &trans      &trans   &trans       &trans   &trans   &trans
+            >;
+        };
+
+        layer_Scroll {
+            display-name = "SCRL";
+            // 트랙패드를 스크롤 모드로 전환하는 트리거 전용 레이어(toucan.dtsi glidepoint_listener scroller layers=<3 2>).
+            bindings = <
+//    ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌─────┬─────┬─────┬─────┬─────┬─────┐
+//    │     │     │     │     │     │     │               │     │     │     │     │     │     │
+//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
+//    │     │     │     │     │     │     │               │     │     │     │     │     │     │
+//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
+//    │     │     │     │     │     │     │               │     │     │     │     │     │     │
+//    └─────┴─────┴─────┴─────┼─────┼─────┼─────┐   ┌─────┼─────┼─────┼─────┴─────┴─────┴─────┘
+//                            │     │     │     │   │     │     │     │
+//                            └─────┴─────┴─────┘   └─────┴─────┴─────┘
+  &trans   &trans   &trans   &trans   &trans   &trans                         &trans   &trans   &trans   &trans   &trans   &trans
+  &trans   &trans   &trans   &trans   &trans   &trans                         &trans   &trans   &trans   &trans   &trans   &trans
+  &trans   &trans   &trans   &trans   &trans   &trans                         &trans   &trans   &trans   &trans   &trans   &trans
+                                      &trans   &trans   &trans       &trans   &trans   &trans
             >;
         };
 
@@ -201,7 +257,6 @@
                                                                &trans       &trans       &trans       &trans   &kp BSPC       &trans
             >;
         };
-
 
         layer_Subl {
             display-name = "SUBL";
@@ -284,7 +339,6 @@
             >;
         };
 
-
         layer_Letters {
             display-name = "LTRS";
             bindings = <
@@ -307,18 +361,18 @@
         layer_Bluetooth {
             display-name = "BLUE";
             bindings = <
-//    ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
-//    │     │     │     │     │     │     │               │        │   to 0   │   to 1   │          │          │          │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-//    │     │     │     │     │     │     │               │ bt_clr │ bt_sel 0 │ bt_sel 1 │ bt_sel 2 │ bt_sel 3 │ bt_sel 4 │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-//    │     │     │     │     │     │     │               │        │          │          │          │          │          │
-//    └─────┴─────┴─────┴─────┼─────┼─────┼─────┐   ┌─────┼────────┼──────────┼──────────┴──────────┴──────────┴──────────┘
-//                            │     │     │     │   │     │        │          │
-//                            └─────┴─────┴─────┘   └─────┴────────┴──────────┘
-  &trans   &trans   &trans   &trans   &trans   &trans                         &trans       &to 0          &to 1          &trans         &trans         &trans
-  &trans   &trans   &trans   &trans   &trans   &trans                         &bt BT_CLR   &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4
-  &trans   &trans   &trans   &trans   &trans   &trans                         &trans       &trans         &trans         &trans         &trans         &trans
+//    ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌────────┬─────────────────┬────────────────┬──────────┬──────────┬──────────┐
+//    │     │     │     │     │     │     │               │        │ to laltYER_Base │ to laltYER_Nav │          │          │          │
+//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├────────┼─────────────────┼────────────────┼──────────┼──────────┼──────────┤
+//    │     │     │     │     │     │     │               │ bt_clr │    bt_sel 0     │    bt_sel 1    │ bt_sel 2 │ bt_sel 3 │ bt_sel 4 │
+//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├────────┼─────────────────┼────────────────┼──────────┼──────────┼──────────┤
+//    │     │     │     │     │     │     │               │        │                 │                │          │          │          │
+//    └─────┴─────┴─────┴─────┼─────┼─────┼─────┐   ┌─────┼────────┼─────────────────┼────────────────┴──────────┴──────────┴──────────┘
+//                            │     │     │     │   │     │        │                 │
+//                            └─────┴─────┴─────┘   └─────┴────────┴─────────────────┘
+  &trans   &trans   &trans   &trans   &trans   &trans                         &trans       &to LAYER_Base   &to LAYER_Nav   &trans         &trans         &trans
+  &trans   &trans   &trans   &trans   &trans   &trans                         &bt BT_CLR   &bt BT_SEL 0     &bt BT_SEL 1    &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4
+  &trans   &trans   &trans   &trans   &trans   &trans                         &trans       &trans           &trans          &trans         &trans         &trans
                                       &trans   &trans   &trans       &trans   &trans       &trans
             >;
         };
