@@ -160,7 +160,7 @@
   &htm LS(LC(LA(TAB))) TAB   &kp Q            &my_lt LAYER_Systm W   &my_lt LAYER_Numpad E   &htm HYPER(F11) R   &kp T                                             &kp Y                &kp U            &kp I            &my_mt LG(LC(LA(LS(Z)))) O   &kp P              &kp BSLH
   &lt LAYER_Nav ESC          &hrm_l LGUI A    &hrm_l LALT S          &hrm_l LSHFT D          &hrm_l LCTRL F      &htm LG(SPACE) G                                  &kp H                &hrm_r RCTRL J   &hrm_r RSHFT K   &hrm_r RALT L                &hrm_r RGUI SEMI   &kp SQT
   &kp LSHFT                  &htm LG(TAB) Z   &htm LG(GRAVE) X       &htm LG(C) C            &htm LG(V) V        &htm HYPER(F10) B                                 &kp N                &kp M            &kp COMMA        &kp DOT                      &kp FSLH           &kp RSHFT
-                                                                                             &none               &lt LAYER_Symb BSPC   &kp SPACE       &kp SPACE   &lt LAYER_Subl RET   &kp LS(SPACE)
+                                                                                             &kt LSHFT           &lt LAYER_Symb BSPC   &kp SPACE       &kp SPACE   &lt LAYER_Subl RET   &kp LS(SPACE)
             >;
         };
 
