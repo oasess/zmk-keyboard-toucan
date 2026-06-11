@@ -8,20 +8,18 @@
 #include <dt-bindings/zmk/pointing.h>
 
 // 레이어 인덱스 = keymap{} 안 layer 노드의 물리적 순서. dtsi scroller가 raw 인덱스로
-// Nav/Scroll을 참조하므로(trackpad 모드 결합점), Mouse/Scroll을 Base 직후 저인덱스에 고정해
-// 뒤쪽 레이어 추가/삭제로 인한 index 밀림에서 격리한다. 순서 변경 시 dtsi scroller 동기 필수.
+// Nav를 참조하므로(trackpad 스크롤 모드 결합점), 순서 변경 시 dtsi scroller 동기 필수.
 #define LAYER_Base 0
 #define LAYER_Mouse 1
-#define LAYER_Scroll 2
-#define LAYER_Nav 3
-#define LAYER_Symb 4
-#define LAYER_Subl 5
-#define LAYER_Apps 6
-#define LAYER_Systm 7
-#define LAYER_Raycast 8
-#define LAYER_Letters 9
-#define LAYER_Bluetooth 10
-#define LAYER_Numpad 11
+#define LAYER_Nav 2
+#define LAYER_Symb 3
+#define LAYER_Subl 4
+#define LAYER_Apps 5
+#define LAYER_Systm 6
+#define LAYER_Raycast 7
+#define LAYER_Letters 8
+#define LAYER_Bluetooth 9
+#define LAYER_Numpad 10
 
 // Hyper = Shift + Ctrl + Alt + Cmd 합성 modifier.
 // Hammerspoon hyper_actions.lua가 OS-level listener로 받음 (kanata 측도 동일 조합 emit).
@@ -289,42 +287,22 @@
 
         layer_Mouse {
             display-name = "MOUS";
-            // 좌엄지 최외곽 hold로 진입(momentary). 좌 home row = 마우스 클릭/스크롤, 우측 트랙패드는 포인터 모드 유지.
-            // A=scroll(hold→LAYER_Scroll), S=중클릭, D=우클릭, F=좌클릭. F hold + 트랙패드 드래그 = 드래그-셀렉트.
+            // 좌엄지 최외곽 hold로 진입(momentary). 좌 home row = 마우스 클릭, 우측 트랙패드는 포인터 모드 유지.
+            // S=중클릭, D=우클릭, F=좌클릭. F hold + 트랙패드 드래그 = 드래그-셀렉트.
             bindings = <
-//    ┌─────┬───────────────────┬──────┬──────┬──────┬─────┐               ┌─────┬─────┬─────┬─────┬─────┬─────┐
-//    │     │                   │      │      │      │     │               │     │     │     │     │     │     │
-//    ├─────┼───────────────────┼──────┼──────┼──────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │ mo laltYER_Scroll │ mclk │ rclk │ lclk │     │               │     │     │     │     │     │     │
-//    ├─────┼───────────────────┼──────┼──────┼──────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │                   │      │      │      │     │               │     │     │     │     │     │     │
-//    └─────┴───────────────────┴──────┴──────┼──────┼─────┼─────┐   ┌─────┼─────┼─────┼─────┴─────┴─────┴─────┘
-//                                            │      │     │     │   │     │     │     │
-//                                            └──────┴─────┴─────┘   └─────┴─────┴─────┘
-  &trans   &trans             &trans      &trans      &trans      &trans                         &trans   &trans   &trans   &trans   &trans   &trans
-  &trans   &mo LAYER_Scroll   &mkp MCLK   &mkp RCLK   &mkp LCLK   &trans                         &trans   &trans   &trans   &trans   &trans   &trans
-  &trans   &trans             &trans      &trans      &trans      &trans                         &trans   &trans   &trans   &trans   &trans   &trans
-                                                      &trans      &trans   &trans       &trans   &trans   &trans
-            >;
-        };
-
-        layer_Scroll {
-            display-name = "SCRL";
-            // 트랙패드를 스크롤 모드로 전환하는 트리거 전용 레이어(toucan.dtsi glidepoint_listener scroller layers=<3 2>).
-            bindings = <
-//    ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌─────┬─────┬─────┬─────┬─────┬─────┐
-//    │     │     │     │     │     │     │               │     │     │     │     │     │     │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │     │     │     │     │     │               │     │     │     │     │     │     │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │     │     │     │     │     │               │     │     │     │     │     │     │
-//    └─────┴─────┴─────┴─────┼─────┼─────┼─────┐   ┌─────┼─────┼─────┼─────┴─────┴─────┴─────┘
-//                            │     │     │     │   │     │     │     │
-//                            └─────┴─────┴─────┘   └─────┴─────┴─────┘
-  &trans   &trans   &trans   &trans   &trans   &trans                         &trans   &trans   &trans   &trans   &trans   &trans
-  &trans   &trans   &trans   &trans   &trans   &trans                         &trans   &trans   &trans   &trans   &trans   &trans
-  &trans   &trans   &trans   &trans   &trans   &trans                         &trans   &trans   &trans   &trans   &trans   &trans
-                                      &trans   &trans   &trans       &trans   &trans   &trans
+//    ┌─────┬─────┬──────┬──────┬──────┬─────┐               ┌─────┬─────┬─────┬─────┬─────┬─────┐
+//    │     │     │      │      │      │     │               │     │     │     │     │     │     │
+//    ├─────┼─────┼──────┼──────┼──────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
+//    │     │     │ mclk │ rclk │ lclk │     │               │     │     │     │     │     │     │
+//    ├─────┼─────┼──────┼──────┼──────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
+//    │     │     │      │      │      │     │               │     │     │     │     │     │     │
+//    └─────┴─────┴──────┴──────┼──────┼─────┼─────┐   ┌─────┼─────┼─────┼─────┴─────┴─────┴─────┘
+//                              │      │     │     │   │     │     │     │
+//                              └──────┴─────┴─────┘   └─────┴─────┴─────┘
+  &trans   &trans   &trans      &trans      &trans      &trans                         &trans   &trans   &trans   &trans   &trans   &trans
+  &trans   &trans   &mkp MCLK   &mkp RCLK   &mkp LCLK   &trans                         &trans   &trans   &trans   &trans   &trans   &trans
+  &trans   &trans   &trans      &trans      &trans      &trans                         &trans   &trans   &trans   &trans   &trans   &trans
+                                            &trans      &trans   &trans       &trans   &trans   &trans
             >;
         };
 
@@ -350,13 +328,13 @@
         layer_Symb {
             display-name = "SYMB";
             bindings = <
-//    ┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐               ┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
-//    │ lsft(`) │ lsft(1) │ lsft(2) │ lsft(3) │ lsft(4) │ lsft(5) │               │ lsft(6) │ lsft(7) │ lsft(8) │ lsft(9) │ lsft(0) │ lsft(-) │
-//    ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤               ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-//    │    `    │    1    │    2    │    3    │    4    │    5    │               │    6    │    7    │    8    │    9    │    0    │    -    │
-//    ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤               ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-//    │ lsft(=) │ lsft(,) │ lsft(.) │ lsft(/) │    [    │    ]    │               │ lsft([) │ lsft(]) │    ,    │    .    │    /    │    =    │
-//    └─────────┴─────────┴─────────┴─────────┼─────────┼─────────┼─────┐   ┌─────┼─────────┼─────────┼─────────┴─────────┴─────────┴─────────┘
+//    ┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐               ┌─────────┬─────────┬─────────┬─────────┬─────────┬───┐
+//    │ lsft(-) │ lsft(1) │ lsft(2) │ lsft(3) │ lsft(4) │ lsft(5) │               │ lsft(6) │ lsft(7) │ lsft(8) │ lsft(9) │ lsft(0) │ - │
+//    ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤               ├─────────┼─────────┼─────────┼─────────┼─────────┼───┤
+//    │ lsft(`) │    1    │    2    │    3    │    4    │    5    │               │    6    │    7    │    8    │    9    │    0    │ ` │
+//    ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤               ├─────────┼─────────┼─────────┼─────────┼─────────┼───┤
+//    │ lsft(=) │ lsft(,) │ lsft(.) │ lsft(/) │    [    │    ]    │               │ lsft([) │ lsft(]) │    ,    │    .    │    /    │ = │
+//    └─────────┴─────────┴─────────┴─────────┼─────────┼─────────┼─────┐   ┌─────┼─────────┼─────────┼─────────┴─────────┴─────────┴───┘
 //                                            │         │         │     │   │     │  bspc   │         │
 //                                            └─────────┴─────────┴─────┘   └─────┴─────────┴─────────┘
   &kp LS(MINUS)   &kp LS(N1)      &kp LS(N2)    &kp LS(N3)     &kp LS(N4)   &kp LS(N5)                         &kp LS(N6)     &kp LS(N7)     &kp LS(N8)   &kp LS(N9)   &kp LS(N0)   &kp MINUS

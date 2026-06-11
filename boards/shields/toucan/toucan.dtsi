@@ -109,7 +109,7 @@
         device = <&glidepoint_split>;
         input-processors = <&zip_xy_scaler 250 100>;
         scroller {
-            layers = <3 2>; // LAYER_Nav(scroll-while-nav), LAYER_Scroll(Mouse>A)
+            layers = <2>; // LAYER_Nav(scroll-while-nav)
             input-processors = <
                 &zip_xy_to_scroll_mapper
                 &zip_scroll_scaler 1 5
