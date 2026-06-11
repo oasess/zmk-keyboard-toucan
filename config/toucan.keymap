@@ -155,6 +155,114 @@
     };
 };
 
+// 36키(Ferris) 스타일 콤보 튜닝. 바깥 키는 그대로 두고 안쪽 손가락 쌍을 추가 액세스 경로로.
+// timeout 35ms = 두 키 동시 누름 창(빠른 롤 중 오발 차단). prior-idle 125ms = 직전 입력 후
+// 그만큼 쉬어야 첫 콤보 키 인식(연속 타이핑 중 오인식 차단). HRM(s/d·k/l)과 공존하는 핵심 값.
+#define TRANSITION_COMBO_TIMEOUT_MS 35
+#define TRANSITION_COMBO_PRIOR_IDLE_MS 125
+
+/ {
+    combos {
+        compatible = "zmk,combos";
+
+        // ===== Base 레이어: 바깥키 기능을 안쪽 쌍으로 (바깥키도 그대로 유지) =====
+        combo_tab {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <2 3>;          // W+E
+            layers = <LAYER_Base>;
+            bindings = <&kp TAB>;
+        };
+        combo_esc_nav {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            slow-release;                   // hold-tap 콤보를 두 키 모두 뗄 때까지 유지
+            key-positions = <14 15>;        // S+D
+            layers = <LAYER_Base>;
+            bindings = <&lt LAYER_Nav ESC>; // tap=ESC, hold=Nav
+        };
+        combo_copy {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <26 27>;        // X+C
+            layers = <LAYER_Base>;
+            bindings = <&kp LG(C)>;
+        };
+        combo_paste {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <27 28>;        // C+V
+            layers = <LAYER_Base>;
+            bindings = <&kp LG(V)>;
+        };
+        combo_cut {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <26 28>;        // X+V (C 건너뜀 — 비인접)
+            layers = <LAYER_Base>;
+            bindings = <&kp LG(X)>;
+        };
+        combo_bslh {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <8 9>;          // I+O
+            layers = <LAYER_Base>;
+            bindings = <&kp BSLH>;
+        };
+        combo_sqt {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <20 21>;        // K+L
+            layers = <LAYER_Base>;
+            bindings = <&kp SQT>;
+        };
+
+        // ===== Symb 레이어: 바깥키 심볼을 동일 쌍에 (바깥키-콤보가 base·sym 양쪽 alias) =====
+        combo_sym_under {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <2 3>;          // W+E → _
+            layers = <LAYER_Symb>;
+            bindings = <&kp LS(MINUS)>;
+        };
+        combo_sym_tilde {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <14 15>;        // S+D → ~
+            layers = <LAYER_Symb>;
+            bindings = <&kp LS(GRAVE)>;
+        };
+        combo_sym_plus {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <26 27>;        // X+C → +
+            layers = <LAYER_Symb>;
+            bindings = <&kp LS(EQUAL)>;
+        };
+        combo_sym_minus {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <8 9>;          // I+O → -
+            layers = <LAYER_Symb>;
+            bindings = <&kp MINUS>;
+        };
+        combo_sym_grave {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <20 21>;        // K+L → `
+            layers = <LAYER_Symb>;
+            bindings = <&kp GRAVE>;
+        };
+        combo_sym_equal {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <32 33>;        // ,+. → =
+            layers = <LAYER_Symb>;
+            bindings = <&kp EQUAL>;
+        };
+    };
+};
+
 / {
 
     keymap {
@@ -251,8 +359,8 @@
 //    └─────────┴─────────┴─────────┴─────────┼─────────┼─────────┼─────┐   ┌─────┼─────────┼─────────┼─────────┴─────────┴─────────┴─────────┘
 //                                            │         │         │     │   │     │  bspc   │         │
 //                                            └─────────┴─────────┴─────┘   └─────┴─────────┴─────────┘
-  &kp LS(GRAVE)   &kp LS(N1)      &kp LS(N2)    &kp LS(N3)     &kp LS(N4)   &kp LS(N5)                         &kp LS(N6)     &kp LS(N7)     &kp LS(N8)   &kp LS(N9)   &kp LS(N0)   &kp LS(MINUS)
-  &kp GRAVE       &kp N1          &kp N2        &kp N3         &kp N4       &kp N5                             &kp N6         &kp N7         &kp N8       &kp N9       &kp N0       &kp MINUS
+  &kp LS(MINUS)   &kp LS(N1)      &kp LS(N2)    &kp LS(N3)     &kp LS(N4)   &kp LS(N5)                         &kp LS(N6)     &kp LS(N7)     &kp LS(N8)   &kp LS(N9)   &kp LS(N0)   &kp MINUS
+  &kp LS(GRAVE)   &kp N1          &kp N2        &kp N3         &kp N4       &kp N5                             &kp N6         &kp N7         &kp N8       &kp N9       &kp N0       &kp GRAVE
   &kp LS(EQUAL)   &kp LS(COMMA)   &kp LS(DOT)   &kp LS(FSLH)   &kp LBKT     &kp RBKT                           &kp LS(LBKT)   &kp LS(RBKT)   &kp COMMA    &kp DOT      &kp FSLH     &kp EQUAL
                                                                &trans       &trans       &trans       &trans   &kp BSPC       &trans
             >;
