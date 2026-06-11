@@ -308,18 +308,18 @@
             // 좌엄지 최외곽 hold로 진입(momentary). 좌 home row = 기존 클릭 유지.
             // 우측 하프 = vim-like key mouse cluster. 트랙패드는 포인터 모드 유지.
             bindings = <
-//    ┌─────┬─────┬──────┬──────┬──────┬─────┐                ┌────────────────┬────────────────┬──────────────┬────────────────┬─────┬─────┐
-//    │     │     │      │      │      │     │                │ &msc SCRL_left │ &msc SCRL_down │ &msc SCRL_up │ &msc SCRL_rght │     │     │
-//    ├─────┼─────┼──────┼──────┼──────┼─────┤                ├────────────────┼────────────────┼──────────────┼────────────────┼─────┼─────┤
-//    │     │     │ mclk │ rclk │ lclk │     │                │ &mmv MOVE_left │ &mmv MOVE_down │ &mmv MOVE_up │ &mmv MOVE_rght │     │     │
-//    ├─────┼─────┼──────┼──────┼──────┼─────┤                ├────────────────┼────────────────┼──────────────┼────────────────┼─────┼─────┤
-//    │     │     │      │      │      │     │                │                │                │              │                │     │     │
-//    └─────┴─────┴──────┴──────┼──────┼─────┼─────┐   ┌──────┼────────────────┼────────────────┼──────────────┴────────────────┴─────┴─────┘
+//    ┌─────┬─────┬──────┬──────┬──────┬─────┐                ┌────────────────┬────────────────┬────────────────┬────────────────┬─────┬─────┐
+//    │     │     │      │      │      │     │                │ &msc SCRL_left │  &msc SCRL_up  │ &msc SCRL_down │ &msc SCRL_rght │     │     │
+//    ├─────┼─────┼──────┼──────┼──────┼─────┤                ├────────────────┼────────────────┼────────────────┼────────────────┼─────┼─────┤
+//    │     │     │ mclk │ rclk │ lclk │     │                │ &mmv MOVE_left │ &mmv MOVE_down │  &mmv MOVE_up  │ &mmv MOVE_rght │     │     │
+//    ├─────┼─────┼──────┼──────┼──────┼─────┤                ├────────────────┼────────────────┼────────────────┼────────────────┼─────┼─────┤
+//    │     │     │      │      │      │     │                │                │                │                │                │     │     │
+//    └─────┴─────┴──────┴──────┼──────┼─────┼─────┐   ┌──────┼────────────────┼────────────────┼────────────────┴────────────────┴─────┴─────┘
 //                              │      │     │     │   │ lclk │      rclk      │      mclk      │
 //                              └──────┴─────┴─────┘   └──────┴────────────────┴────────────────┘
-  &trans   &trans   &trans      &trans      &trans      &trans                            &msc SCRL_LEFT   &msc SCRL_DOWN   &msc SCRL_UP   &msc SCRL_RIGHT   &trans   &trans
-  &trans   &trans   &mkp MCLK   &mkp RCLK   &mkp LCLK   &trans                            &mmv MOVE_LEFT   &mmv MOVE_DOWN   &mmv MOVE_UP   &mmv MOVE_RIGHT   &trans   &trans
-  &trans   &trans   &trans      &trans      &trans      &trans                            &trans           &trans           &trans         &trans            &trans   &trans
+  &trans   &trans   &trans      &trans      &trans      &trans                            &msc SCRL_LEFT   &msc SCRL_UP     &msc SCRL_DOWN   &msc SCRL_RIGHT   &trans   &trans
+  &trans   &trans   &mkp MCLK   &mkp RCLK   &mkp LCLK   &trans                            &mmv MOVE_LEFT   &mmv MOVE_DOWN   &mmv MOVE_UP     &mmv MOVE_RIGHT   &trans   &trans
+  &trans   &trans   &trans      &trans      &trans      &trans                            &trans           &trans           &trans           &trans            &trans   &trans
                                             &trans      &trans   &trans       &mkp LCLK   &mkp RCLK        &mkp MCLK
             >;
         };
