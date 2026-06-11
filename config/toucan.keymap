@@ -3,6 +3,10 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/outputs.h>
 
+// urob-style key mouse defaults. Must be defined before pointing.h.
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 600
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 20
+
 // Adding pointing.h to be able to right and middle click
 // https://zmk.dev/docs/keymaps/behaviors/mouse-emulation
 #include <dt-bindings/zmk/pointing.h>
@@ -153,6 +157,20 @@
     };
 };
 
+// Key mouse tuning from urob/zmk-config, excluding NAV/FN layer-dependent
+// warp/precision listeners because Toucan has different layer semantics.
+&mmv {
+    acceleration-exponent = <1>;
+    time-to-max-speed-ms = <500>;
+    delay-ms = <0>;
+};
+
+&msc {
+    acceleration-exponent = <0>;
+    time-to-max-speed-ms = <300>;
+    delay-ms = <0>;
+};
+
 // 36키(Ferris) 스타일 콤보 튜닝. 바깥 키는 그대로 두고 안쪽 손가락 쌍을 추가 액세스 경로로.
 // timeout 35ms = 두 키 동시 누름 창(빠른 롤 중 오발 차단). prior-idle 125ms = 직전 입력 후
 // 그만큼 쉬어야 첫 콤보 키 인식(연속 타이핑 중 오인식 차단). HRM(s/d·k/l)과 공존하는 핵심 값.
@@ -287,22 +305,22 @@
 
         layer_Mouse {
             display-name = "MOUS";
-            // 좌엄지 최외곽 hold로 진입(momentary). 좌 home row = 마우스 클릭, 우측 트랙패드는 포인터 모드 유지.
-            // S=중클릭, D=우클릭, F=좌클릭. F hold + 트랙패드 드래그 = 드래그-셀렉트.
+            // 좌엄지 최외곽 hold로 진입(momentary). 좌 home row = 기존 클릭 유지.
+            // 우측 하프 = urob key mouse cluster. 트랙패드는 포인터 모드 유지.
             bindings = <
-//    ┌─────┬─────┬──────┬──────┬──────┬─────┐               ┌─────┬─────┬─────┬─────┬─────┬─────┐
-//    │     │     │      │      │      │     │               │     │     │     │     │     │     │
-//    ├─────┼─────┼──────┼──────┼──────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │     │ mclk │ rclk │ lclk │     │               │     │     │     │     │     │     │
-//    ├─────┼─────┼──────┼──────┼──────┼─────┤               ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │     │      │      │      │     │               │     │     │     │     │     │     │
-//    └─────┴─────┴──────┴──────┼──────┼─────┼─────┐   ┌─────┼─────┼─────┼─────┴─────┴─────┴─────┘
-//                              │      │     │     │   │     │     │     │
-//                              └──────┴─────┴─────┘   └─────┴─────┴─────┘
-  &trans   &trans   &trans      &trans      &trans      &trans                         &trans   &trans   &trans   &trans   &trans   &trans
-  &trans   &trans   &mkp MCLK   &mkp RCLK   &mkp LCLK   &trans                         &trans   &trans   &trans   &trans   &trans   &trans
-  &trans   &trans   &trans      &trans      &trans      &trans                         &trans   &trans   &trans   &trans   &trans   &trans
-                                            &trans      &trans   &trans       &trans   &trans   &trans
+//    ┌─────┬─────┬──────┬──────┬──────┬─────┐                        ┌────────────────┬────────────────┬────────────────┬────────────────┬────────────────┬─────┐
+//    │     │     │      │      │      │     │                        │                │      pgup      │  &mmv MOVE_up  │      pgdn      │                │     │
+//    ├─────┼─────┼──────┼──────┼──────┼─────┤                        ├────────────────┼────────────────┼────────────────┼────────────────┼────────────────┼─────┤
+//    │     │     │ mclk │ rclk │ lclk │     │                        │ &msc SCRL_left │ &mmv MOVE_left │ &mmv MOVE_down │ &mmv MOVE_rght │ &msc SCRL_rght │     │
+//    ├─────┼─────┼──────┼──────┼──────┼─────┤                        ├────────────────┼────────────────┼────────────────┼────────────────┼────────────────┼─────┤
+//    │     │     │      │      │      │     │                        │                │      lclk      │      mclk      │      rclk      │                │     │
+//    └─────┴─────┴──────┴──────┼──────┼─────┼─────┐   ┌──────────────┼────────────────┼────────────────┼────────────────┴────────────────┴────────────────┴─────┘
+//                              │      │     │     │   │ &msc SCRL_up │ &msc SCRL_down │                │
+//                              └──────┴─────┴─────┘   └──────────────┴────────────────┴────────────────┘
+  &trans   &trans   &trans      &trans      &trans      &trans                               &trans           &kp PG_UP        &mmv MOVE_UP     &kp PG_DN         &trans            &trans
+  &trans   &trans   &mkp MCLK   &mkp RCLK   &mkp LCLK   &trans                               &msc SCRL_LEFT   &mmv MOVE_LEFT   &mmv MOVE_DOWN   &mmv MOVE_RIGHT   &msc SCRL_RIGHT   &trans
+  &trans   &trans   &trans      &trans      &trans      &trans                               &trans           &mkp LCLK        &mkp MCLK        &mkp RCLK         &trans            &trans
+                                            &trans      &trans   &trans       &msc SCRL_UP   &msc SCRL_DOWN   &trans
             >;
         };
 
