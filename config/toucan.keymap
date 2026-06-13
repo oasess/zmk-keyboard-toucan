@@ -261,48 +261,62 @@
             bindings = <&kp BSLH>;
         };
 
-        // ===== Symb 레이어: 바깥키 심볼을 동일 쌍에 (바깥키-콤보가 base·sym 양쪽 alias) =====
-        combo_sym_under {
+        // ===== Symb 레이어: base 콤보의 shifted 버전을 같은 쌍에 (shift 없이 sym에서 직접) =====
+        combo_sym_we {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
             require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
-            key-positions = <2 3>;          // W+E → _
-            layers = <LAYER_Symb>;
-            bindings = <&kp LS(MINUS)>;
-        };
-        combo_sym_tilde {
-            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
-            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
-            key-positions = <14 15>;        // S+D → ~
+            key-positions = <2 3>;          // W+E → ~
             layers = <LAYER_Symb>;
             bindings = <&kp LS(GRAVE)>;
         };
-        combo_sym_plus {
+        combo_sym_ui {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
             require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
-            key-positions = <26 27>;        // X+C → +
+            key-positions = <7 8>;          // U+I → _
+            layers = <LAYER_Symb>;
+            bindings = <&kp LS(MINUS)>;
+        };
+        combo_sym_io {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <8 9>;          // I+O → +
             layers = <LAYER_Symb>;
             bindings = <&kp LS(EQUAL)>;
         };
-        combo_sym_minus {
+        combo_sym_ol {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
             require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
-            key-positions = <8 9>;          // I+O → -
+            key-positions = <9 21>;         // O+L → |
             layers = <LAYER_Symb>;
-            bindings = <&kp MINUS>;
+            bindings = <&kp LS(BSLH)>;
         };
-        combo_sym_grave {
+        combo_sym_kl {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
             require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
             key-positions = <20 21>;        // K+L → `
             layers = <LAYER_Symb>;
             bindings = <&kp GRAVE>;
         };
-        combo_sym_equal {
+        combo_sym_xc {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
             require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
-            key-positions = <32 33>;        // ,+. → =
+            key-positions = <26 27>;        // X+C → + (유지, i+o와 중복)
             layers = <LAYER_Symb>;
-            bindings = <&kp EQUAL>;
+            bindings = <&kp LS(EQUAL)>;
+        };
+        combo_sym_mc {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <31 32>;        // M+, → {
+            layers = <LAYER_Symb>;
+            bindings = <&kp LS(LBKT)>;
+        };
+        combo_sym_cd {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <32 33>;        // ,+. → }
+            layers = <LAYER_Symb>;
+            bindings = <&kp LS(RBKT)>;
         };
     };
 };
