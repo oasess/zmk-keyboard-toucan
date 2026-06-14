@@ -256,7 +256,7 @@
         combo_bslh {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
             require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
-            key-positions = <9 21>;         // O+L → \ (i+o에서 이동)
+            key-positions = <8 21>;         // I+L → \ (o+l에서 이동)
             layers = <LAYER_Base>;
             bindings = <&kp BSLH>;
         };
@@ -283,10 +283,10 @@
             layers = <LAYER_Symb>;
             bindings = <&kp LS(EQUAL)>;
         };
-        combo_sym_ol {
+        combo_sym_il {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
             require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
-            key-positions = <9 21>;         // O+L → |
+            key-positions = <8 21>;         // I+L → |
             layers = <LAYER_Symb>;
             bindings = <&kp LS(BSLH)>;
         };
