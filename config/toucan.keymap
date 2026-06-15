@@ -189,13 +189,12 @@
             layers = <LAYER_Base>;
             bindings = <&kp TAB>;
         };
-        combo_esc_nav {
+        combo_esc {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
             require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
-            slow-release;                   // hold-tap 콤보를 두 키 모두 뗄 때까지 유지
             key-positions = <14 15>;        // S+D
             layers = <LAYER_Base>;
-            bindings = <&lt LAYER_Nav ESC>; // tap=ESC, hold=Nav
+            bindings = <&kp ESC>;           // 평문 ESC (nav=q-hold, kanata (s d) esc와 대칭)
         };
         combo_copy {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
@@ -338,8 +337,8 @@
 //    └────────────────────────────────┴──────────────────┴────────────────────────┴─────────────────────────┼───────────────────┼──────────────────────┼─────┐   ┌─────┼─────────────────────┼───────────────┼───────────────┴────────────────────────────────────┴───────────────┴──────┘
 //                                                                                                           │ mo laltYER_Mouse  │ lt laltYER_Symb bspc │ spc │   │ spc │ lt laltYER_Subl ent │   lsft(spc)   │
 //                                                                                                           └───────────────────┴──────────────────────┴─────┘   └─────┴─────────────────────┴───────────────┘
-  &htm LS(LC(LA(TAB))) TAB   &kp Q            &my_lt LAYER_Systm W   &my_lt LAYER_Numpad E   &htm HYPER(F11) R   &kp T                                             &my_kt LSHFT Y       &kp U            &kp I            &my_mt LG(LC(LA(LS(Z)))) O   &kp P              &kp BSLH
-  &lt LAYER_Nav ESC          &hrm_l LGUI A    &hrm_l LALT S          &hrm_l LSHFT D          &hrm_l LCTRL F      &htm LG(SPACE) G                                  &kp H                &hrm_r RCTRL J   &hrm_r RSHFT K   &hrm_r RALT L                &hrm_r RGUI SEMI   &kp SQT
+  &htm LS(LC(LA(TAB))) TAB   &my_lt LAYER_Nav Q   &my_lt LAYER_Systm W   &my_lt LAYER_Numpad E   &htm HYPER(F11) R   &kp T                                             &my_kt LSHFT Y       &kp U            &kp I            &my_mt LG(LC(LA(LS(Z)))) O   &kp P              &kp BSLH
+  &kp ESC                    &hrm_l LGUI A    &hrm_l LALT S          &hrm_l LSHFT D          &hrm_l LCTRL F      &htm LG(SPACE) G                                  &kp H                &hrm_r RCTRL J   &hrm_r RSHFT K   &hrm_r RALT L                &hrm_r RGUI SEMI   &kp SQT
   &kp LSHFT                  &htm LG(TAB) Z   &htm LG(GRAVE) X       &htm LG(C) C            &htm LG(V) V        &htm HYPER(F10) B                                 &kp N                &kp M            &kp COMMA        &kp DOT                      &kp FSLH           &kp RSHFT
                                                                                              &mo LAYER_Mouse     &lt LAYER_Symb BSPC   &kp SPACE       &kp SPACE   &lt LAYER_Subl RET   &kp LS(SPACE)
             >;
