@@ -259,6 +259,20 @@
             layers = <LAYER_Base>;
             bindings = <&kp BSLH>;
         };
+        combo_cmdtab {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <25 26>;        // Z+X → Cmd+Tab (z-hold과 동일, 추가 경로)
+            layers = <LAYER_Base>;
+            bindings = <&kp LG(TAB)>;
+        };
+        combo_qmark {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <33 34>;        // .+/ → ?
+            layers = <LAYER_Base>;
+            bindings = <&kp LS(FSLH)>;
+        };
 
         // ===== Symb 레이어: base 콤보의 shifted 버전을 같은 쌍에 (shift 없이 sym에서 직접) =====
         combo_sym_we {
