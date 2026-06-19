@@ -231,6 +231,13 @@
             layers = <LAYER_Base>;
             bindings = <&kp SQT>;
         };
+        combo_grv {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <19 20>;        // J+K → ` (backtick)
+            layers = <LAYER_Base>;
+            bindings = <&kp GRAVE>;
+        };
         combo_minus {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
             require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
@@ -275,13 +282,6 @@
         };
 
         // ===== Symb 레이어: base 콤보의 shifted 버전을 같은 쌍에 (shift 없이 sym에서 직접) =====
-        combo_sym_we {
-            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
-            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
-            key-positions = <2 3>;          // W+E → ~
-            layers = <LAYER_Symb>;
-            bindings = <&kp LS(GRAVE)>;
-        };
         combo_sym_ui {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
             require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
@@ -303,12 +303,19 @@
             layers = <LAYER_Symb>;
             bindings = <&kp LS(BSLH)>;
         };
+        combo_sym_jk {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <19 20>;        // J+K → ~ (틸트)
+            layers = <LAYER_Symb>;
+            bindings = <&kp LS(GRAVE)>;
+        };
         combo_sym_kl {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
             require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
-            key-positions = <20 21>;        // K+L → `
+            key-positions = <20 21>;        // K+L → "
             layers = <LAYER_Symb>;
-            bindings = <&kp GRAVE>;
+            bindings = <&kp LS(SQT)>;
         };
         combo_sym_xc {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
