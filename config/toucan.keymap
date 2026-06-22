@@ -4,7 +4,7 @@
 #include <dt-bindings/zmk/outputs.h>
 
 // urob-style key mouse defaults. Must be defined before pointing.h.
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 600
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 1400  // 포인터 최고 속도 천장(upstream 기본 600에서 상향)
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 20
 
 // Adding pointing.h to be able to right and middle click
