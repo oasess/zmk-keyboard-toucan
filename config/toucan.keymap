@@ -238,6 +238,13 @@
             layers = <LAYER_Base>;
             bindings = <&kp GRAVE>;
         };
+        combo_colon {
+            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
+            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
+            key-positions = <21 22>;        // L+; → :
+            layers = <LAYER_Base>;
+            bindings = <&kp LS(SEMI)>;
+        };
         combo_minus {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
             require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
