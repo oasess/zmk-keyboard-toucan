@@ -108,14 +108,15 @@
             bindings = <&mo>, <&kp>;
         };
 
-        // hold = &kt(key-toggle, 락 토글), tap = 평문 &kp. 사용: &my_kt LSHFT Y → tap=Y / hold=shift-lock 토글.
-        // &htm(<&once>,<&kp>)·&my_mt(<&kp>,<&kp>)로는 hold에 &kt를 못 넣어 별도 variant. g/b/r htm과 동일 감각(tap-preferred/300).
-        my_kt: my_kt {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <300>;
-            bindings = <&kt>, <&kp>;
+        // capslock 키(a 좌측 바깥키): 1탭=한/영(Shift+Space emit) / 2탭=대문자 모드.
+        // &caps_word는 지정 키 외를 누르면 스스로 풀리고, 2탭을 다시 하면 수동 해제된다. hold 동작 없음.
+        // #binding-cells=0이라 키맵에서는 인자 없이 &td_capsword로만 쓴다(인자를 붙이면 빌드 에러).
+        // kanata @mhanl (tap-dance $td-time (@mhgul @mcapw)) 미러 — tapping-term은 $td-time과 동기.
+        td_capsword: td_capsword {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp LS(SPACE)>, <&caps_word>;
         };
 
         my_mtw: my_mtw {
@@ -359,14 +360,14 @@
 //    ┌───────────────────────┬──────────────────────┬────────────────────────┬─────────────────────────┬──────────────────┬──────────────────────┐               ┌─────────────────────┬───────────────┬───────────────┬────────────────────────────────────┬───────────────┬──────┐
 //    │ lsft(lctl(lalt(tab))) │ &my_lt laltYER_Nav Q │ &my_lt laltYER_Systm W │ &my_lt laltYER_Numpad E │        R         │  &htm HYPER(f11) T   │               │          Y          │       U       │       I       │ &my_mt lgui(lctl(lalt(lsft(Z)))) O │       P       │      │
 //    ├───────────────────────┼──────────────────────┼────────────────────────┼─────────────────────────┼──────────────────┼──────────────────────┤               ├─────────────────────┼───────────────┼───────────────┼────────────────────────────────────┼───────────────┼──────┤
-//    │ &my_kt lsft lsft(spc) │    &hrm_l lgui A     │     &hrm_l lalt S      │      &hrm_l lsft D      │  &hrm_l lctl F   │   &htm lgui(spc) G   │               │          H          │ &hrm_r rctl J │ &hrm_r rsft K │           &hrm_r ralt L            │ &hrm_r rgui ; │      │
+//    │ &td_capsword          │    &hrm_l lgui A     │     &hrm_l lalt S      │      &hrm_l lsft D      │  &hrm_l lctl F   │   &htm lgui(spc) G   │               │          H          │ &hrm_r rctl J │ &hrm_r rsft K │           &hrm_r ralt L            │ &hrm_r rgui ; │      │
 //    ├───────────────────────┼──────────────────────┼────────────────────────┼─────────────────────────┼──────────────────┼──────────────────────┤               ├─────────────────────┼───────────────┼───────────────┼────────────────────────────────────┼───────────────┼──────┤
 //    │         lsft          │   &htm lgui(tab) Z   │     &htm lgui(`) X     │     &htm lgui(C) C      │  &htm lgui(V) V  │  &htm HYPER(f10) B   │               │          N          │       M       │       ,       │                 .                  │       /       │ rsft │
 //    └───────────────────────┴──────────────────────┴────────────────────────┴─────────────────────────┼──────────────────┼──────────────────────┼─────┐   ┌─────┼─────────────────────┼───────────────┼───────────────┴────────────────────────────────────┴───────────────┴──────┘
 //                                                                                                      │ mo laltYER_Mouse │ lt laltYER_Symb bspc │ spc │   │ spc │ lt laltYER_Subl ent │               │
 //                                                                                                      └──────────────────┴──────────────────────┴─────┘   └─────┴─────────────────────┴───────────────┘
   &kp LS(LC(LA(TAB)))      &my_lt LAYER_Nav Q   &my_lt LAYER_Systm W   &my_lt LAYER_Numpad E   &kp R             &htm HYPER(F11) T                                 &kp Y                &kp U            &kp I            &my_mt LG(LC(LA(LS(Z)))) O   &kp P              &none
-  &my_kt LSHFT LS(SPACE)   &hrm_l LGUI A        &hrm_l LALT S          &hrm_l LSHFT D          &hrm_l LCTRL F    &htm LG(SPACE) G                                  &kp H                &hrm_r RCTRL J   &hrm_r RSHFT K   &hrm_r RALT L                &hrm_r RGUI SEMI   &none
+  &td_capsword             &hrm_l LGUI A        &hrm_l LALT S          &hrm_l LSHFT D          &hrm_l LCTRL F    &htm LG(SPACE) G                                  &kp H                &hrm_r RCTRL J   &hrm_r RSHFT K   &hrm_r RALT L                &hrm_r RGUI SEMI   &none
   &kp LSHFT                &htm LG(TAB) Z       &htm LG(GRAVE) X       &htm LG(C) C            &htm LG(V) V      &htm HYPER(F10) B                                 &kp N                &kp M            &kp COMMA        &kp DOT                      &kp FSLH           &kp RSHFT
                                                                                                &mo LAYER_Mouse   &lt LAYER_Symb BSPC   &kp SPACE       &kp SPACE   &lt LAYER_Subl RET   &none
             >;
