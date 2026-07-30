@@ -356,19 +356,19 @@
         layer_Base {
             display-name = "BASE";
             bindings = <
-//    ┌────────────────────────────────┬──────────────────┬────────────────────────┬─────────────────────────┬───────────────────┬──────────────────────┐               ┌─────────────────────┬───────────────┬───────────────┬────────────────────────────────────┬───────────────┬──────┐
-//    │ &htm lsft(lctl(lalt(tab))) tab │        Q         │ &my_lt laltYER_Systm W │ &my_lt laltYER_Numpad E │ &htm HYPER(f11) R │          T           │               │    &my_kt lsft Y    │       U       │       I       │ &my_mt lgui(lctl(lalt(lsft(Z)))) O │       P       │  \   │
-//    ├────────────────────────────────┼──────────────────┼────────────────────────┼─────────────────────────┼───────────────────┼──────────────────────┤               ├─────────────────────┼───────────────┼───────────────┼────────────────────────────────────┼───────────────┼──────┤
-//    │       lt laltYER_Nav esc       │  &hrm_l lgui A   │     &hrm_l lalt S      │      &hrm_l lsft D      │   &hrm_l lctl F   │   &htm lgui(spc) G   │               │          H          │ &hrm_r rctl J │ &hrm_r rsft K │           &hrm_r ralt L            │ &hrm_r rgui ; │  '   │
-//    ├────────────────────────────────┼──────────────────┼────────────────────────┼─────────────────────────┼───────────────────┼──────────────────────┤               ├─────────────────────┼───────────────┼───────────────┼────────────────────────────────────┼───────────────┼──────┤
-//    │              lsft              │ &htm lgui(tab) Z │     &htm lgui(`) X     │     &htm lgui(C) C      │  &htm lgui(V) V   │  &htm HYPER(f10) B   │               │          N          │       M       │       ,       │                 .                  │       /       │ rsft │
-//    └────────────────────────────────┴──────────────────┴────────────────────────┴─────────────────────────┼───────────────────┼──────────────────────┼─────┐   ┌─────┼─────────────────────┼───────────────┼───────────────┴────────────────────────────────────┴───────────────┴──────┘
-//                                                                                                           │ mo laltYER_Mouse  │ lt laltYER_Symb bspc │ spc │   │ spc │ lt laltYER_Subl ent │   lsft(spc)   │
-//                                                                                                           └───────────────────┴──────────────────────┴─────┘   └─────┴─────────────────────┴───────────────┘
-  &kp LS(LC(LA(TAB)))       &my_lt LAYER_Nav Q   &my_lt LAYER_Systm W   &my_lt LAYER_Numpad E   &kp R   &htm HYPER(F11) T                                             &kp Y                &kp U            &kp I            &my_mt LG(LC(LA(LS(Z)))) O   &kp P              &none
-  &my_kt LSHFT LS(SPACE)     &hrm_l LGUI A    &hrm_l LALT S          &hrm_l LSHFT D          &hrm_l LCTRL F      &htm LG(SPACE) G                                  &kp H                &hrm_r RCTRL J   &hrm_r RSHFT K   &hrm_r RALT L                &hrm_r RGUI SEMI   &none
-  &kp LSHFT                  &htm LG(TAB) Z   &htm LG(GRAVE) X       &htm LG(C) C            &htm LG(V) V        &htm HYPER(F10) B                                 &kp N                &kp M            &kp COMMA        &kp DOT                      &kp FSLH           &kp RSHFT
-                                                                                             &mo LAYER_Mouse     &lt LAYER_Symb BSPC   &kp SPACE       &kp SPACE   &lt LAYER_Subl RET   &none
+//    ┌───────────────────────┬──────────────────────┬────────────────────────┬─────────────────────────┬──────────────────┬──────────────────────┐               ┌─────────────────────┬───────────────┬───────────────┬────────────────────────────────────┬───────────────┬──────┐
+//    │ lsft(lctl(lalt(tab))) │ &my_lt laltYER_Nav Q │ &my_lt laltYER_Systm W │ &my_lt laltYER_Numpad E │        R         │  &htm HYPER(f11) T   │               │          Y          │       U       │       I       │ &my_mt lgui(lctl(lalt(lsft(Z)))) O │       P       │      │
+//    ├───────────────────────┼──────────────────────┼────────────────────────┼─────────────────────────┼──────────────────┼──────────────────────┤               ├─────────────────────┼───────────────┼───────────────┼────────────────────────────────────┼───────────────┼──────┤
+//    │ &my_kt lsft lsft(spc) │    &hrm_l lgui A     │     &hrm_l lalt S      │      &hrm_l lsft D      │  &hrm_l lctl F   │   &htm lgui(spc) G   │               │          H          │ &hrm_r rctl J │ &hrm_r rsft K │           &hrm_r ralt L            │ &hrm_r rgui ; │      │
+//    ├───────────────────────┼──────────────────────┼────────────────────────┼─────────────────────────┼──────────────────┼──────────────────────┤               ├─────────────────────┼───────────────┼───────────────┼────────────────────────────────────┼───────────────┼──────┤
+//    │         lsft          │   &htm lgui(tab) Z   │     &htm lgui(`) X     │     &htm lgui(C) C      │  &htm lgui(V) V  │  &htm HYPER(f10) B   │               │          N          │       M       │       ,       │                 .                  │       /       │ rsft │
+//    └───────────────────────┴──────────────────────┴────────────────────────┴─────────────────────────┼──────────────────┼──────────────────────┼─────┐   ┌─────┼─────────────────────┼───────────────┼───────────────┴────────────────────────────────────┴───────────────┴──────┘
+//                                                                                                      │ mo laltYER_Mouse │ lt laltYER_Symb bspc │ spc │   │ spc │ lt laltYER_Subl ent │               │
+//                                                                                                      └──────────────────┴──────────────────────┴─────┘   └─────┴─────────────────────┴───────────────┘
+  &kp LS(LC(LA(TAB)))      &my_lt LAYER_Nav Q   &my_lt LAYER_Systm W   &my_lt LAYER_Numpad E   &kp R             &htm HYPER(F11) T                                 &kp Y                &kp U            &kp I            &my_mt LG(LC(LA(LS(Z)))) O   &kp P              &none
+  &my_kt LSHFT LS(SPACE)   &hrm_l LGUI A        &hrm_l LALT S          &hrm_l LSHFT D          &hrm_l LCTRL F    &htm LG(SPACE) G                                  &kp H                &hrm_r RCTRL J   &hrm_r RSHFT K   &hrm_r RALT L                &hrm_r RGUI SEMI   &none
+  &kp LSHFT                &htm LG(TAB) Z       &htm LG(GRAVE) X       &htm LG(C) C            &htm LG(V) V      &htm HYPER(F10) B                                 &kp N                &kp M            &kp COMMA        &kp DOT                      &kp FSLH           &kp RSHFT
+                                                                                               &mo LAYER_Mouse   &lt LAYER_Symb BSPC   &kp SPACE       &kp SPACE   &lt LAYER_Subl RET   &none
             >;
         };
 
@@ -482,12 +482,12 @@
 //    ├─────┼────────────┼─────┼─────────────────────┼──────┼─────┤               ├─────┼─────┼────┼────┼─────┼─────┤
 //    │     │            │     │ lgui(lsft(lctl(4))) │      │     │               │     │ f1  │ f2 │ f3 │     │     │
 //    └─────┴────────────┴─────┴─────────────────────┼──────┼─────┼─────┐   ┌─────┼─────┼─────┼────┴────┴─────┴─────┘
-//                                                   │      │     │     │   │     │     │     │
+//                                                   │      │ del │     │   │     │     │     │
 //                                                   └──────┴─────┴─────┘   └─────┴─────┴─────┘
-  &trans   &kp HYPER(F13)   &none   &kp K_VOL_UP         &kp C_BRI_UP   &none                          &none    &kp F7   &kp F8   &kp F9   &kp F10   &kp F11
-  &none    &none            &none   &kp K_VOL_DN         &kp C_BRI_DN   &none                          &none    &kp F4   &kp F5   &kp F6   &none     &kp F12
-  &trans   &none            &none   &kp LG(LS(LC(N4)))   &none          &none                          &none    &kp F1   &kp F2   &kp F3   &none     &trans
-                                                         &trans         &trans   &trans       &trans   &trans   &trans
+  &trans   &kp HYPER(F13)   &none   &kp K_VOL_UP         &kp C_BRI_UP   &none                           &none    &kp F7   &kp F8   &kp F9   &kp F10   &kp F11
+  &none    &none            &none   &kp K_VOL_DN         &kp C_BRI_DN   &none                           &none    &kp F4   &kp F5   &kp F6   &none     &kp F12
+  &trans   &none            &none   &kp LG(LS(LC(N4)))   &none          &none                           &none    &kp F1   &kp F2   &kp F3   &none     &trans
+                                                         &trans         &kp DEL   &trans       &trans   &trans   &trans
             >;
         };
 
