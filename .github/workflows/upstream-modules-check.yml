@@ -30,7 +30,7 @@ jobs:
           set -euo pipefail
 
           # 감시 대상: <west 프로젝트명>|<비교할 저장소>|<브랜치>
-          # zmk_driver_azoteq는 두 곳을 본다 — beekeeb(툭한2 통합자)와 geeksville(드라이버 원작자).
+          # zmk_driver_azoteq는 두 곳을 본다 — beekeeb(Toucan2 통합자)와 geeksville(드라이버 원작자).
           WATCH="
           zmk_driver_azoteq|beekeeb/zmk_driver_azoteq|main
           zmk_driver_azoteq|geeksville/zmk_driver_azoteq|master
