@@ -11,8 +11,9 @@
 // https://zmk.dev/docs/keymaps/behaviors/mouse-emulation
 #include <dt-bindings/zmk/pointing.h>
 
-// 레이어 인덱스 = keymap{} 안 layer 노드의 물리적 순서. dtsi scroller가 raw 인덱스로
-// Nav를 참조하므로(trackpad 스크롤 모드 결합점), 순서 변경 시 dtsi scroller 동기 필수.
+// 레이어 인덱스 = keymap{} 안 layer 노드의 물리적 순서. 트랙패드 입력 파이프라인
+// 오버라이드는 이 파일 하단에서 LAYER_* define을 그대로 참조하므로(dtsi는 upstream
+// pristine), 레이어 순서를 바꿔도 자동 추종된다 — 더 이상 dtsi 동기가 필요 없다.
 #define LAYER_Base 0
 #define LAYER_Mouse 1
 #define LAYER_Nav 2
@@ -24,6 +25,7 @@
 #define LAYER_Letters 8
 #define LAYER_Bluetooth 9
 #define LAYER_Numpad 10
+#define LAYER_Touch 11   // 트랙패드 접촉 중 자동(is_touching_processor가 &mo로 켬)
 
 // Hyper = Shift + Ctrl + Alt + Cmd 합성 modifier.
 // Hammerspoon hyper_actions.lua가 OS-level listener로 받음 (kanata 측도 동일 조합 emit).
@@ -171,6 +173,49 @@
     time-to-max-speed-ms = <300>;
     delay-ms = <0>;
 };
+
+// ── 트랙패드 (Azoteq TPS43) ───────────────────────────────────────────────────
+// shield의 boards/shields/toucan/toucan.dtsi 노드를 여기서 덮어쓴다 → dtsi는 upstream
+// pristine으로 두고 upstream 재머지를 항상 fast-forward로 유지한다.
+// dts 결합 순서: board.dts → shield .overlay(+toucan.dtsi) → 이 keymap. 뒤가 이긴다.
+
+&trackpad_listener {
+    // upstream의 scroller 자식 노드(레이어 누른 채 드래그=스크롤)를 제거한다.
+    //  (1) v2는 하드웨어가 2-finger 스크롤을 직접 내므로 역할이 중복이고,
+    //  (2) layer override가 0개여야 is_touching_processor가 안전하다 —
+    //      input_listener.c의 filter_with_input_config는 override가 매칭되면
+    //      process-next(기본 false)가 없는 한 base 체인을 통째로 건너뛴다. 그러면
+    //      손가락을 뗄 때의 BTN_TOUCH=0이 base에 있는 is_touching_processor에
+    //      도달하지 못해 &mo의 release가 유실되고 레이어가 영구 latch된다.
+    input-processors = <&zip_xy_scaler 100 100>
+                     , <&zip_scroll_scaler 1 20>
+                     , <&zip_zoom_mapper>
+                     , <&is_touching_processor>
+                     , <&swipe_button_mapper>;
+    /delete-node/ scroller;
+};
+
+// upstream 기본값은 &mo 4 = upstream 키맵의 mouse 레이어. 이 키맵의 4는 LAYER_Subl이라
+// 의미가 다르므로 전용 LAYER_Touch로 돌린다.
+&is_touching_processor {
+    bindings = <&mo LAYER_Touch>;
+};
+
+// 3-finger swipe N/E/S/W. 방향만 Hyper로 흘리고 무엇을 할지는 hyper_actions.lua가 단독 결정
+// → 동작을 바꿔도 재플래시 불요. upstream 기본값 LC(LG(arrow))는 이 맥에서 심볼릭 핫키
+// 32(⌃↑)·79/81(⌃←/⌃→)이 꺼져 있어 무동작이다.
+// &kp가 아니라 &once인 이유: 드라이버가 press/release를 0ms 간격으로 연달아 낸다
+// (tps43.c:351-352) → &kp면 keydown/keyup 간격이 0이라 소비자가 놓칠 수 있다.
+// bindings 길이는 codes 4개와 같아야 한다(ZMK BUILD_ASSERT).
+&swipe_button_mapper {
+    bindings = <&once HYPER(F15)>    // N : 위
+             , <&once HYPER(F16)>    // E : 오른쪽
+             , <&once HYPER(F17)>    // S : 아래
+             , <&once HYPER(F18)>;   // W : 왼쪽
+};
+
+// pinch zoom은 upstream 그대로 ⌘- / ⌘= 직결(&zip_zoom_mapper 미오버라이드).
+// 핀치 1회에 press/release 버스트가 여러 번 나가므로 Hammerspoon 왕복은 부적합.
 
 // 36키(Ferris) 스타일 콤보 튜닝. 바깥 키는 그대로 두고 안쪽 손가락 쌍을 추가 액세스 경로로.
 // timeout 35ms = 두 키 동시 누름 창(빠른 롤 중 오발 차단). prior-idle 125ms = 직전 입력 후
@@ -567,6 +612,21 @@
   &none           &trans   &trans   &trans   &trans   &none                          &none    &kp N4   &kp N5   &kp N6   &kp DOT   &kp MINUS
   &kp LS(EQUAL)   &none    &none    &none    &none    &none                          &none    &kp N1   &kp N2   &kp N3   &none     &kp EQUAL
                                              &trans   &trans   &trans       &trans   &kp N0   &trans
+            >;
+        };
+
+        layer_Touch {
+            display-name = "TOUC";
+            // 트랙패드에 손가락이 닿아 있는 동안만 자동으로 켜짐(키 트리거 없음).
+            // 클릭을 엄지가 아니라 좌 home row s/d/f에 두는 이유:
+            //  - 트랙패드가 우측 하프에 있어 접촉 중 자유로운 쪽은 왼손이다(우 포인팅 + 좌 클릭).
+            //  - layer_Mouse가 이미 s/d/f = 중/우/좌클릭이라 손버릇 그대로 재사용.
+            //  - 엄지(36~41)에 두면 SPACE·BSPC·RET가 접촉 중 클릭으로 바뀌어 오발동 위험이 크다.
+            bindings = <
+  &trans   &trans   &trans      &trans      &trans      &trans                            &trans   &trans   &trans   &trans   &trans   &trans
+  &trans   &trans   &mkp MCLK   &mkp RCLK   &mkp LCLK   &trans                            &trans   &trans   &trans   &trans   &trans   &trans
+  &trans   &trans   &trans      &trans      &trans      &trans                            &trans   &trans   &trans   &trans   &trans   &trans
+                                            &trans      &trans   &trans       &trans      &trans   &trans
             >;
         };
 
