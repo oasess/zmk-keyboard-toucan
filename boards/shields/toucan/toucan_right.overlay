@@ -66,7 +66,10 @@
         filter-settings=<0x0B>;
         hold-time = <500>;
 
-        zoom;
+        // zoom; // 의도적 비활성 — 2-finger 스크롤 오분류를 막는다.
+        //          tps43.c의 gesture 분기는 `else if (is_scroll_active) / else if (is_zoom_active)`
+        //          배타 구조라, 칩이 ZOOM flag를 올린 프레임은 스크롤이 통째로 사라진다.
+        //          핀치 줌을 되살리려면 이 줄만 주석 해제하면 된다(&zip_zoom_mapper는 체인에 유지 중).
         scroll;
         two-finger-tap;
         single-tap;

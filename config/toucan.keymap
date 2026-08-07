@@ -214,8 +214,11 @@
              , <&once HYPER(F18)>;   // W : 왼쪽
 };
 
-// pinch zoom은 upstream 그대로 ⌘- / ⌘= 직결(&zip_zoom_mapper 미오버라이드).
-// 핀치 1회에 press/release 버스트가 여러 번 나가므로 Hammerspoon 왕복은 부적합.
+// pinch zoom은 칩 레벨에서 꺼져 있다(toucan_right.overlay의 `zoom;` 주석 처리) —
+// 2-finger 스크롤이 ZOOM으로 오분류되어 통째로 먹히는 문제 때문. &zip_zoom_mapper는
+// 체인에 남겨둬서 overlay의 `zoom;` 한 줄만 되살리면 다시 동작하게 한다.
+// 되살릴 경우 바인딩은 upstream 그대로 ⌘- / ⌘= 직결(Hammerspoon 왕복 부적합 —
+// 핀치 1회에 press/release 버스트가 여러 번 나간다).
 
 // 36키(Ferris) 스타일 콤보 튜닝. 바깥 키는 그대로 두고 안쪽 손가락 쌍을 추가 액세스 경로로.
 // timeout 35ms = 두 키 동시 누름 창(빠른 롤 중 오발 차단). prior-idle 125ms = 직전 입력 후
