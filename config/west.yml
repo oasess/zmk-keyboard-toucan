@@ -16,11 +16,18 @@ manifest:
     - name: zmk-rgbled-widget
       remote: caksoylar
       revision: v0.3
+    # 트랙패드 모듈 2개는 upstream이 `main` 브랜치(floating)로 두지만 여기서는 SHA로 고정한다.
+    # 이유: 브랜치를 따라가면 upstream push가 내 펌웨어를 조용히 바꾼다.
+    # 드리프트 감시는 .github/workflows/upstream-modules-check.yml이 주 1회 수행 —
+    # 실제 파일 변경이 생기면 워크플로가 실패해 알림이 온다. 그때 아래 SHA를 올린다.
     - name: zmk_driver_azoteq
       remote: beekeeb
-      revision: main
+      # 2026-07-11 c329f30 "Add three_finger_swipe throttle"
+      # geeksville/master(66d5102)와 트리 동일 — beekeeb main은 이미 상류에 머지된 feature 브랜치다.
+      revision: c329f309b7481e5723603550b15f48e24d0c8a6a
     - name: zmk-input-zoom
       remote: beekeeb
-      revision: main
+      # 2026-06-23 91bbe0c "Initial commit" (현재 이 저장소의 유일한 커밋)
+      revision: 91bbe0c0e02145da50c9df798489479d28be1804
   self:
     path: config

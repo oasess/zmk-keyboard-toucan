@@ -1,0 +1,97 @@
+# config/west.yml에 SHA로 고정한 트랙패드 모듈들이 업스트림에서 움직였는지 주 1회 확인한다.
+#
+# 알림 방식: 드리프트가 있으면 이 워크플로가 **실패**한다. GitHub이 예약 워크플로 실패 시
+# 저장소 소유자에게 기본으로 메일을 보내므로 별도 설정이 필요 없다.
+# (이 fork는 has_issues=false라 이슈 생성 방식은 쓸 수 없다.)
+#
+# 커밋 개수가 아니라 **실제 파일 변경**으로 판정한다 — beekeeb의 main은 상류에 머지된
+# feature 브랜치라, 머지 커밋 하나 때문에 "1 behind"로 보이지만 트리는 동일한 상태가 정상이다.
+# 그런 무해한 차이로 매주 실패하면 알림이 곧 무시된다.
+
+name: Upstream module check
+
+on:
+  schedule:
+    - cron: "17 0 * * 1" # 매주 월요일 09:17 KST
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: 고정 SHA와 업스트림 비교
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          # 감시 대상: <west 프로젝트명>|<비교할 저장소>|<브랜치>
+          # zmk_driver_azoteq는 두 곳을 본다 — beekeeb(툭한2 통합자)와 geeksville(드라이버 원작자).
+          WATCH="
+          zmk_driver_azoteq|beekeeb/zmk_driver_azoteq|main
+          zmk_driver_azoteq|geeksville/zmk_driver_azoteq|master
+          zmk-input-zoom|beekeeb/zmk-input-zoom|main
+          "
+
+          drift=0
+          {
+            echo "## 트랙패드 모듈 업스트림 확인"
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          while IFS='|' read -r project repo ref; do
+            [ -z "${project:-}" ] && continue
+
+            pinned=$(yq -r ".manifest.projects[] | select(.name == \"$project\") | .revision" config/west.yml)
+            if [ -z "$pinned" ] || [ "$pinned" = "null" ]; then
+              echo "::error::config/west.yml에서 $project 의 revision을 못 찾음"
+              exit 1
+            fi
+            # 브랜치명으로 남아 있으면 고정이 풀린 것이다.
+            case "$pinned" in
+              [0-9a-f]*) [ ${#pinned} -eq 40 ] || { echo "::error::$project revision이 40자 SHA가 아님: $pinned"; exit 1; } ;;
+              *) echo "::error::$project 가 SHA로 고정돼 있지 않음: $pinned"; exit 1 ;;
+            esac
+
+            cmp=$(gh api "repos/$repo/compare/$pinned...$ref" 2>/dev/null || echo '')
+            if [ -z "$cmp" ]; then
+              echo "- ⚠️ \`$repo@$ref\` — 비교 실패(브랜치 삭제/이름 변경 가능성)" >> "$GITHUB_STEP_SUMMARY"
+              drift=1
+              continue
+            fi
+
+            changed=$(echo "$cmp" | jq -r '.files | length')
+            head=$(echo "$cmp" | jq -r '.commits | if length > 0 then last.sha else "" end')
+
+            if [ "$changed" -eq 0 ]; then
+              echo "- ✅ \`$repo@$ref\` — 파일 변경 없음 (고정: \`${pinned:0:7}\`)" >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+
+            drift=1
+            {
+              echo "- 🔴 **\`$repo@$ref\` 에 실제 변경 ${changed}개 파일**"
+              echo "  - 고정: \`${pinned:0:7}\` → 최신: \`${head:0:7}\`"
+              echo "  - 커밋:"
+              echo "$cmp" | jq -r '.commits[] | "    - `\(.sha[0:7])` \(.commit.message | split("\n")[0])"'
+              echo "  - 변경 파일:"
+              echo "$cmp" | jq -r '.files[] | "    - \(.status) `\(.filename)` +\(.additions)/-\(.deletions)"'
+            } >> "$GITHUB_STEP_SUMMARY"
+          done <<< "$WATCH"
+
+          if [ "$drift" -ne 0 ]; then
+            {
+              echo
+              echo "### 대응"
+              echo "1. 위 커밋이 내 사용에 필요한지 판단한다(버그픽스면 대개 필요)."
+              echo "2. \`config/west.yml\`의 해당 \`revision:\`을 새 SHA로 올리고 주석의 날짜·요약도 갱신한다."
+              echo "3. push → 빌드 → **우측 반쪽 재플래시** 후 트랙패드 동작을 확인한다."
+              echo "   (트랙패드 관련 변경은 우측에만 영향. 검증 항목은 docs/toucan-kanata-architecture.md 참조)"
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::고정된 모듈 업스트림에 실제 변경이 있다. Summary 참조."
+            exit 1
+          fi
