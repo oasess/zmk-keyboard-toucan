@@ -342,32 +342,6 @@
             bindings = <&kp LS(FSLH)>;
         };
 
-        // ===== hold 즉발 우회: 좌우 미러 쌍(같은 손가락 역할) =====
-        // &htm은 tap-preferred라 tapping-term(300ms)을 반드시 채워야 hold가 나간다(조기 확정 없음).
-        // 콤보는 타이핑 중 0ms(prior-idle 게이트가 후보를 안 만듦) / 유휴 시 최대 timeout-ms.
-        // hold는 그대로 두고 경로만 추가한다 — combo_cmdtab과 같은 패턴.
-        combo_raycast {
-            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
-            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
-            key-positions = <17 18>;        // G+H → Raycast (g-hold과 동일, 추가 경로)
-            layers = <LAYER_Base>;
-            bindings = <&kp LG(SPACE)>;
-        };
-        combo_clipboard {
-            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
-            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
-            key-positions = <29 30>;        // B+N → clipboard history (b-hold과 동일, 추가 경로)
-            layers = <LAYER_Base>;
-            bindings = <&kp HYPER(F10)>;
-        };
-        combo_mouseless {
-            timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
-            require-prior-idle-ms = <TRANSITION_COMBO_PRIOR_IDLE_MS>;
-            key-positions = <2 9>;          // W+O → mouseless (o-hold과 동일, 추가 경로)
-            layers = <LAYER_Base>;
-            bindings = <&kp LG(LC(LA(LS(Z))))>;
-        };
-
         // ===== Symb 레이어: base 콤보의 shifted 버전을 같은 쌍에 (shift 없이 sym에서 직접) =====
         combo_sym_ui {
             timeout-ms = <TRANSITION_COMBO_TIMEOUT_MS>;
